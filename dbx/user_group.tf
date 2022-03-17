@@ -1,11 +1,4 @@
-locals {
-  display_name                            = [for ni in var.user_groups : ni.display_name]
-  display_name_allow_cluster_create       = { for ni in var.user_groups : ni.display_name => ni.allow_cluster_create }
-  display_name_allow_instance_pool_create = { for ni in var.user_groups : ni.display_name => ni.allow_instance_pool_create }
 
-  user_email                = [for ni in var.users : ni.user_email]
-  user_email_solution_group = { for ni in var.users : ni.user_email => ni.solution_group }
-}
 
 
 resource "databricks_group" "solution_group" {
