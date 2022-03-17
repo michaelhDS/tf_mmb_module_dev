@@ -1,13 +1,3 @@
-
-locals {
-  cluster_name                  = [for i in var.clusters : i.cluster_name]
-  cluster_name_min_workers      = { for i in var.clusters : i.cluster_name => i.min_workers }
-  cluster_name_max_workers      = { for i in var.clusters : i.cluster_name => i.max_workers }
-  cluster_name_permission_level = { for i in var.clusters : i.cluster_name => i.permission_level }
-  cluster_name_user_group       = { for i in var.clusters : i.cluster_name => i.user_group }
-
-}
-
 data "databricks_node_type" "smallest" {
   local_disk = true
 }

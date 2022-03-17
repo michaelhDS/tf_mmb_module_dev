@@ -1,6 +1,3 @@
-
-
-
 resource "databricks_group" "solution_group" {
 
   for_each                   = toset(local.display_name)
