@@ -4,7 +4,6 @@ variable "user_groups" {
     allow_cluster_create       = bool
     allow_instance_pool_create = bool
   }))
-
   default = []
 }
 
