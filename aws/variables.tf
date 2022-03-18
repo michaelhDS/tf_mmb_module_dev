@@ -21,22 +21,6 @@ variable "user" {
 variable "s3_bucket" {
 
   type = list(object({
-    bucket_name            = string
-    sid                    = string
-    effect                 = string
-    resources              = list(string)
-    actions                = list(string)
-    principals_identifiers = list(string)
-  }))
-
-  default = []
-}
-
-
-
-variable "s3_bucket" {
-
-  type = list(object({
     bucket_name = string
     statements = list(object({
       statement = object({
@@ -65,16 +49,3 @@ locals {
   # buckets_name_actions                = { for i in var.s3_bucket : i.bucket_name => i.actions }
   # buckets_name_principals_identifiers = { for i in var.s3_bucket : i.bucket_name => i.principals_identifiers }
 }
-
-# variable "statement" {
-#   type = object({
-#     statement = object({
-#       sid                    = string
-#       effect                 = string
-#       resources              = list(string)
-#       actions                = list(string)
-#       principals_identifiers = list(string)
-#     })
-#   })
-#   default = {}
-# }

@@ -13,9 +13,6 @@ module "aws" {
 
   source = "./aws"
 
-  user_groups   = var.user_groups
-  clusters      = var.clusters
-  users         = var.users
-  secret_scopes = var.secret_scopes
+  s3_bucket = var.s3_bucket
 
 }
