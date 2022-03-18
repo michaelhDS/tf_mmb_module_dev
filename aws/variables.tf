@@ -5,7 +5,7 @@ variable "buckets_name" {
 
 variable "arn" {
   type    = list(string)
-  default = ["arn:aws:s3:::mmb-test1-mh", "arn:aws:s3:::mmb-test1-mh/*"]
+  default = ["arn:aws:s3:::mmb-test1-mh/snowboardsteam_path", "arn:aws:s3:::mmb-test1-mh/snowboardsteam_path/*"]
 }
 
 variable "actions" {
@@ -15,31 +15,66 @@ variable "actions" {
 
 variable "user" {
   type    = list(string)
-  default = ["arn:aws:iam::554025156005:user/snowboardsteam"]
+  default = ["arn:aws:iam::554025156005:user/snowboardsteam", "arn:aws:iam::554025156005:role/snowboardsteamApp"]
 }
 
+variable "s3_bucket" {
 
+  type = list(object({
+    bucket_name            = string
+    sid                    = string
+    effect                 = string
+    resources              = list(string)
+    actions                = list(string)
+    principals_identifiers = list(string)
+  }))
+
+  default = []
+}
 
 
 
 variable "s3_bucket" {
+
   type = list(object({
     bucket_name = string
-    bucket_arn  = string
-    sid         = string
-    arn_iam     = string
-    path        = bool
-    actions     = list(string)
+    statements = list(object({
+      statement = object({
+        sid       = string
+        effect    = string
+        resources = list(string)
+        actions   = list(string)
+        principals = object({
+          type        = string
+          identifiers = list(string)
+        })
+      })
+    }))
   }))
+
   default = []
 }
 
 locals {
-  buckets_name            = [for i in var.s3_bucket : i.bucket_name]
-  buckets_name_bucket_arn = { for i in var.s3_bucket : i.bucket_name => i.bucket_arn }
-  buckets_name_arn_iam    = { for i in var.s3_bucket : i.bucket_name => i.arn_iam }
-  buckets_name_sid        = { for i in var.s3_bucket : i.bucket_name => i.sid }
-  buckets_name_path       = { for i in var.s3_bucket : i.bucket_name => i.path }
-  buckets_name_actions    = { for i in var.s3_bucket : i.bucket_name => i.actions }
+  buckets_name                        = [for i in var.s3_bucket : i.bucket_name]
+  buckets_name_statements                  = { for i in var.s3_bucket : i.bucket_name => i.statements }
+
+  # buckets_name_sid                    = { for i in var.s3_bucket : i.bucket_name => i.sid }
+  # buckets_name_effect                 = { for i in var.s3_bucket : i.bucket_name => i.effect }
+  # buckets_name_resources              = { for i in var.s3_bucket : i.bucket_name => i.resources }
+  # buckets_name_actions                = { for i in var.s3_bucket : i.bucket_name => i.actions }
+  # buckets_name_principals_identifiers = { for i in var.s3_bucket : i.bucket_name => i.principals_identifiers }
 }
 
+# variable "statement" {
+#   type = object({
+#     statement = object({
+#       sid                    = string
+#       effect                 = string
+#       resources              = list(string)
+#       actions                = list(string)
+#       principals_identifiers = list(string)
+#     })
+#   })
+#   default = {}
+# }

@@ -35,3 +35,26 @@ variable "users" {
   }))
   default = []
 }
+
+
+
+variable "s3_bucket" {
+
+  type = list(object({
+    bucket_name = string
+    statements = list(object({
+      statement = object({
+        sid       = string
+        effect    = string
+        resources = list(string)
+        actions   = list(string)
+        principals = object({
+          type        = string
+          identifiers = list(string)
+        })
+      })
+    }))
+  }))
+
+  default = []
+}
